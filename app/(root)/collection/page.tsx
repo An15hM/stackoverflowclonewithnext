@@ -1,13 +1,11 @@
 import Filter from "@/components/shared/Filter";
 import LocalSearchbar from "@/components/shared/search/LocalSearchbar";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import React from "react";
-import { HomePageFilters } from "@/constants/filters";
-import HomeFilters from "@/components/home/HomeFilters";
+import { QuestionFilters } from "@/constants/filters";
 import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
-import { getQuestions } from "@/lib/actions/question.action";
+import { getSavedQuestions } from "@/lib/actions/user.action";
+import { auth } from "@clerk/nextjs";
 
 // const questions = [
 //   {
@@ -227,10 +225,12 @@ import { getQuestions } from "@/lib/actions/question.action";
 //     answers: [],
 //   },
 // ];
-
-const fetchData = async () => {
+interface Props {
+  userId: string;
+}
+const fetchData = async ({ userId }: Props) => {
   try {
-    const result = await getQuestions({});
+    const result = await getSavedQuestions({ clerkId: userId });
 
     return result;
     // Process result
@@ -239,19 +239,17 @@ const fetchData = async () => {
     // Handle error (e.g., display error message)
   }
 };
-const Home = async () => {
-  const result = await fetchData();
+
+const CollectionPage = async () => {
+  const { userId } = auth();
+  if (!userId) return null;
+
+  const result = await fetchData({ userId });
 
   return (
     <>
-      <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
-        <h1 className="h1-bold text-dark100_light900">All Questions</h1>
-        <Link href="/ask-question" className="flex justify-end max-sm:w-full">
-          <Button className="primary-gradient min-h-[46] px-4 py-3 !text-light-900">
-            Ask A Quesrion
-          </Button>
-        </Link>
-      </div>
+      <h1 className="h1-bold text-dark100_light900">Saved Questions</h1>
+
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchbar
           route="/"
@@ -261,15 +259,13 @@ const Home = async () => {
           otherClasses="flex-1"
         />
         <Filter
-          filters={HomePageFilters}
+          filters={QuestionFilters}
           otherClasses="flex-1 min-h-[56px]  sm:min-w-[170px]"
-          containerClasses="hidden max-md:flex"
         />
       </div>
-      <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {result && result.questions.length > 0 ? (
+        {result && result?.questions?.length > 0 ? (
           result.questions.map((question) => (
             // {questions.length > 0 ? (
             //   questions.map((question) => (
@@ -287,12 +283,10 @@ const Home = async () => {
           ))
         ) : (
           <NoResult
-            title="There's no question to show"
-            description="Be the first to break the silence. Ask A Question and kickstart the
-            discussion. Your query could be the next big thing others learn from.
-            Get Involved."
+            title="There's no saved question to show"
+            description="Save A Question that you might need to view them later."
+            linkTitle="Save a question"
             link="/"
-            linkTitle="Ask a question"
           />
         )}
       </div>
@@ -300,4 +294,4 @@ const Home = async () => {
   );
 };
 
-export default Home;
+export default CollectionPage;
