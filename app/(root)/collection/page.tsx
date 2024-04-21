@@ -267,7 +267,7 @@ const CollectionPage = async () => {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result && result?.questions?.length > 0 ? (
-          result.questions.map((question: IQuestion) => (
+          result.questions.map((question: any) => (
             // {questions.length > 0 ? (
             //   questions.map((question) => (
             <QuestionCard
