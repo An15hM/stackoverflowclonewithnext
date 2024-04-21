@@ -6,6 +6,7 @@ import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
+import { IQuestion } from "@/database/question.model";
 
 // const questions = [
 //   {
@@ -266,7 +267,7 @@ const CollectionPage = async () => {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {result && result?.questions?.length > 0 ? (
-          result.questions.map((question) => (
+          result.questions.map((question: IQuestion) => (
             // {questions.length > 0 ? (
             //   questions.map((question) => (
             <QuestionCard
