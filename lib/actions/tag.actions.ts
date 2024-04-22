@@ -15,6 +15,7 @@ export async function getTopInteractedtags(params: GetTopInteractedTagsParams) {
   try {
     connectToDatabase();
     const { userId, limit = 3 } = params;
+    console.log(limit);
 
     const user = await User.findById(userId);
 
@@ -62,6 +63,7 @@ export async function getQuestionsByTagId(params: GetQuestionsByTagIdParams) {
     connectToDatabase();
 
     const { tagId, page = 1, pageSize = 10, searchQuery } = params;
+    console.log(tagId, pageSize, page);
 
     const tagFilter: FilterQuery<Itag> = searchQuery
       ? { title: { $regex: searchQuery, $options: "i" } }
