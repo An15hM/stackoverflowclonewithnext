@@ -6,7 +6,7 @@ import NoResult from "@/components/shared/NoResult";
 import QuestionCard from "@/components/cards/QuestionCard";
 import { getSavedQuestions } from "@/lib/actions/user.action";
 import { auth } from "@clerk/nextjs";
-import { IQuestion } from "@/database/question.model";
+// import { IQuestion } from "@/database/question.model";
 
 // const questions = [
 //   {
