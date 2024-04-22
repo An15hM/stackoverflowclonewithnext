@@ -29,7 +29,7 @@ const TagsPage = async () => {
       {/* Display Users */}
       <section className="mt-12 flex flex-wrap gap-2">
         {tags && tags.tags.length > 0 ? (
-          tags?.tags.map((tag) => <TagCard key={tag._id} tag={tag} />)
+          tags?.tags.map((tag: any) => <TagCard key={tag._id} tag={tag} />)
         ) : (
           <div className="paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center">
             <p>No Users Found.</p>
