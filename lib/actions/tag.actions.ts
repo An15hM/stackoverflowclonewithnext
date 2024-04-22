@@ -10,7 +10,6 @@ import {
 } from "./shared.types";
 import { FilterQuery } from "mongoose";
 import Question from "@/database/question.model";
-import { Tags } from "lucide-react";
 
 export async function getTopInteractedtags(params: GetTopInteractedTagsParams) {
   try {
@@ -46,7 +45,7 @@ export async function getAllTags(params: GetAllTagsParams) {
   try {
     connectToDatabase();
 
-    const tags = await Tags.find({});
+    const tags = await Tag.find({});
 
     if (!tags) throw new Error("User not found.");
 
